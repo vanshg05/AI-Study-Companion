@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+.venv/
+
+# Database
+*.db
+
+# ChromaDB
+chroma_db/
+
+# Environment Variables
+.env
+
+# macOS
+.DS_Store
+
+# Streamlit
+.streamlit/
+
+# Logs
+*.log
