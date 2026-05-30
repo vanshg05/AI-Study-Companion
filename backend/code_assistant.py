@@ -52,3 +52,24 @@ Code:
 """
 
     return ask_llama(prompt)
+
+
+
+def analyze_complexity(code):
+
+    prompt = f"""
+Analyze the code.
+
+Provide:
+
+1. Time Complexity
+2. Space Complexity
+3. Bottlenecks
+4. Optimization Suggestions
+
+Code:
+
+{code}
+"""
+
+    return ask_llama(prompt)

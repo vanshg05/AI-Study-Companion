@@ -3,6 +3,8 @@ from sqlalchemy import Integer # type: ignore
 from sqlalchemy import String # type: ignore
 from sqlalchemy import DateTime # type: ignore
 from datetime import datetime
+from sqlalchemy import DateTime # type: ignore
+
 
 from backend.database.db import Base
 
@@ -47,6 +49,34 @@ class Activity(Base):
 
     activity_type = Column(
         String
+    )
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
+    )
+
+
+class QuizAttempt(Base):
+
+    __tablename__ = "quiz_attempts"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    username = Column(
+        String
+    )
+
+    score = Column(
+        Integer
+    )
+
+    total_questions = Column(
+        Integer
     )
 
     created_at = Column(
