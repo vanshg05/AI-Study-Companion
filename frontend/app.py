@@ -38,6 +38,9 @@ from frontend.components.analytics import (
 from frontend.components.profile import (
     show_profile
 )
+from frontend.components.history import (
+    show_history
+)
 
 # ==========================
 # PAGE CONFIG
@@ -88,6 +91,9 @@ if not st.session_state.logged_in:
 
     st.stop()
 
+if "username" not in st.session_state:
+    st.session_state.username = ""
+
 # ==========================
 # SIDEBAR
 # ==========================
@@ -110,14 +116,15 @@ st.caption(
 # TABS
 # ==========================
 
-tab0, tab1, tab2, tab3, tab4, tab5 = st.tabs(
+tab0, tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
     [
         "🏠 Dashboard",
         "📖 Study Assistant",
         "💻 Code Assistant",
         "📝 Quiz",
         "📊 Analytics",
-        "👤 Profile"
+        "👤 Profile",
+        "📜 History"
     ]
 )
 
@@ -170,3 +177,11 @@ with tab4:
 with tab5:
 
     show_profile()
+
+# ==========================
+# HISTORY
+# ==========================
+
+with tab6:
+
+    show_history()

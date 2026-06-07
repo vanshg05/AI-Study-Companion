@@ -2,24 +2,43 @@ import streamlit as st # type: ignore
 import pandas as pd # type: ignore
 import plotly.express as px # type: ignore
 
+from backend.database.db import (
+    SessionLocal
+)
+
+from backend.services.analytics_service import (
+    get_user_stats
+)
+
 
 def show_analytics():
 
     st.header("📊 Analytics")
+
+    db = SessionLocal()
+
+    stats = get_user_stats(
+        db,
+        st.session_state.username
+    )
+
+    db.close()
 
     data = pd.DataFrame(
         {
             "Activity":[
                 "Questions",
                 "Flashcards",
-                "Code Reviews",
-                "Quiz Attempts"
+                "Summaries",
+                "Quizzes",
+                "Code Reviews"
             ],
             "Count":[
-                st.session_state.questions_count,
-                st.session_state.flashcard_count,
-                st.session_state.code_reviews,
-                st.session_state.quiz_attempts
+                stats["QUESTION_ASKED"],
+                stats["FLASHCARD"],
+                stats["SUMMARY"],
+                stats["QUIZ"],
+                stats["CODE_REVIEW"]
             ]
         }
     )
@@ -27,7 +46,8 @@ def show_analytics():
     fig = px.bar(
         data,
         x="Activity",
-        y="Count"
+        y="Count",
+        title="User Activity Analytics"
     )
 
     st.plotly_chart(

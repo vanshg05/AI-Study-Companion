@@ -13,6 +13,11 @@ from backend.services.summary_generator import (
 from backend.services.quiz_service import (
     generate_quiz
 )
+from backend.database.db import SessionLocal
+
+from backend.services.activity_service import (
+    log_activity
+)
 
 
 def show_study_assistant(project_root):
@@ -78,6 +83,16 @@ def show_study_assistant(project_root):
 
         st.session_state.questions_count += 1
 
+        db = SessionLocal()
+
+        log_activity(
+            db,
+            st.session_state.username,
+            "QUESTION_ASKED"
+        )
+
+        db.close()
+
         st.session_state.chat_history.append(
             {
                 "question": question,
@@ -105,6 +120,16 @@ def show_study_assistant(project_root):
                 st.session_state.document_text
             )
 
+            db = SessionLocal()
+
+            log_activity(
+                db,
+                st.session_state.username,
+                "FLASHCARD"
+            )
+
+            db.close()
+
             st.session_state.flashcard_count += 1
 
             st.write(flashcards)
@@ -116,6 +141,16 @@ def show_study_assistant(project_root):
             summary = generate_summary(
                 st.session_state.document_text
             )
+
+            db = SessionLocal()
+
+            log_activity(
+                db,
+                st.session_state.username,
+                "SUMMARY"
+            )
+
+            db.close()
 
             st.write(summary)
 
@@ -149,7 +184,17 @@ def show_study_assistant(project_root):
                     st.info(
                         "Open the Quiz tab to attempt the quiz."
                     )
+                    
+                    db = SessionLocal()
 
+                    log_activity(
+                        db,
+                        st.session_state.username,
+                        "QUIZ"
+                    )
+
+                    db.close()
+                    
                 else:
 
                     st.error(

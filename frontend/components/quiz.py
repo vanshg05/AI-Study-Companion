@@ -1,4 +1,15 @@
 import streamlit as st # type: ignore
+from backend.database.db import (
+    SessionLocal
+)
+
+from backend.services.quiz_history_service import (
+    save_quiz_attempt
+)
+
+from backend.services.activity_service import (
+    log_activity
+)
 
 
 def show_quiz():
@@ -109,6 +120,23 @@ def show_quiz():
         st.session_state.quiz_score = score
 
         st.session_state.quiz_attempts += 1
+
+        db = SessionLocal()
+
+        save_quiz_attempt(
+            db,
+            st.session_state.username,
+            score,
+            total_questions
+        )
+
+        log_activity(
+            db,
+            st.session_state.username,
+            "QUIZ"
+        )
+
+        db.close()
 
         st.success(
             f"Your Score: {score}/{total_questions}"

@@ -45,6 +45,10 @@ def show_auth():
 
                 st.session_state.logged_in = True
 
+                st.session_state.username = (
+                    username
+                )
+
                 st.success(
                     "Login Successful"
                 )
